@@ -98,3 +98,40 @@ void MiniMaxSum(List<int> arr)
 // MiniMaxSum(new List<int>{1,2,3,4,5});
 #endregion
 
+#region LonelyInteger
+int LonelyInteger(List<int> a)
+{
+  var arr = new List<int>(a);
+  
+  for (int i = 0; i < a.Count; i++)
+  {
+    for (int j = a.Count-1; j > i; j--)
+    {
+      if (a[i]==a[j])
+      {
+        arr.Remove(a[i]);
+        arr.Remove(a[j]);
+        break;
+      }
+    }
+  }
+
+  return arr.First();
+
+}
+
+// Console.WriteLine(LonelyInteger(new List<int>{1,2,3,4,5,1,2,3,4}));
+
+
+#endregion
+
+#region FlippingTheMatrix
+
+ int FlippingMatrix(List<List<int>> matrix)
+ {
+   return 0;
+ }
+
+Console.WriteLine(FlippingMatrix(new List<List<int>>{new List<int>{1},new List<int>{2},new List<int>{112,42,83,119},new List<int>{56,125,56,49},new List<int>{15,78,101,43},new List<int>{62,98,114,108}}));
+
+#endregion

@@ -126,12 +126,33 @@ int LonelyInteger(List<int> a)
 #endregion
 
 #region FlippingTheMatrix
+int FlippingMatrix(List<List<int>> arr)
+{
+  int row = arr.Count - 1;
+  int col = arr[0].Count - 1;
+  int total = 0;
+  for(int i = 0; i < row; i++)
+  { 
+    // 112 42 83 119
+    // 56 125 56 49
+    // 15 78 101 43
+    // 62 98 114 108
+    for(int j = 0; j < col; j++)
+    {
+      int max = arr[i][j]; // 112 
+      max = Math.Max(max, arr[i][col]); // 119
+      max = Math.Max(max, arr[row][j]); // 62
+      max = Math.Max(max, arr[row][col]); // 108
+      total += max;
+      col--;
+    }
+    col = arr[0].Count - 1; // reset column
+    row--;
+  }
+  return total;
+}
 
- int FlippingMatrix(List<List<int>> matrix)
- {
-   return 0;
- }
+Console.WriteLine(FlippingMatrix(new List<List<int>>{new List<int>{112,42,83,119},new List<int>{56,125,56,49},new List<int>{15,78,101,43},new List<int>{62,98,114,108}}));
 
-Console.WriteLine(FlippingMatrix(new List<List<int>>{new List<int>{1},new List<int>{2},new List<int>{112,42,83,119},new List<int>{56,125,56,49},new List<int>{15,78,101,43},new List<int>{62,98,114,108}}));
 
 #endregion

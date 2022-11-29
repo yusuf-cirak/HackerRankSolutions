@@ -1,11 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿#region DiagonalDifference
 
 using System.Globalization;
 
-Console.WriteLine("Hello, World!");
-
-#region DiagonalDifference
-  int DiagonalDifference(List<List<int>> arr)
+int DiagonalDifference(List<List<int>> arr)
   {
     int leftToRightDiagonal=0;
     int rightToLeftDiagonal=0;
@@ -99,7 +96,28 @@ void MiniMaxSum(List<int> arr)
 #endregion
 
 #region LonelyInteger
-int LonelyInteger(List<int> a)
+int LonelyIntegerSolutionOne(List<int> a)
+{
+    // Bu örnekte Bitwise Exclusive XOR çalışıyor.
+    /*
+     1. iterasyonda 0 ve 1 arasından 1'i seçiyor
+     2. iterasyonda 1 ve 2 arasından 3 toplamını elde ediyor.
+     3. iterasyonda 3 ve 3 arasından 0 değerini elde ediyor.
+     4. iterasyonda 0 ve 4 arasından 4 değerini elde ediyor.
+     5. iterasyonda 4 ve 3 arasından 7 değerini elde ediyor.
+     6. iterasyonda 7 ve 2 arasından 5 değerini elde ediyor.
+     7. iterasyonda 5 ve 1 arasından 4 değerini elde ediyor.
+     */
+
+    var result = 0;
+    foreach (var i in a)
+    {
+        result ^= i;
+    }
+
+    return result;
+}
+int LonelyIntegerSolutionTwo(List<int> a)
 {
   var arr = new List<int>(a);
   
@@ -154,5 +172,143 @@ int FlippingMatrix(List<List<int>> arr)
 
 Console.WriteLine(FlippingMatrix(new List<List<int>>{new List<int>{112,42,83,119},new List<int>{56,125,56,49},new List<int>{15,78,101,43},new List<int>{62,98,114,108}}));
 
+
+#endregion
+
+#region FindMinimumPrice
+static long findMinimumPrice(List<int> price, int discountCouponNumber)
+{
+    long sum = 0;
+
+    if (discountCouponNumber == 0)
+    {
+        for (int i = 0; i < price.Count; i++)
+        {
+            sum += price[i];
+        }
+
+        return sum;
+
+    }
+
+    var count = price.Count;
+
+    var discountPrice = price[count - 1];
+
+    price[count - 1] = discountPrice / Convert.ToInt32(Math.Pow(2, discountCouponNumber));
+
+    for (int i = 0; i < price.Count; i++)
+    {
+        sum += price[i];
+    }
+
+    return sum;
+
+}
+#endregion
+
+#region GetMaximumEvenSum
+static long getMaximumEvenSum(List<int> val)
+{
+    List<int> positiveNumbers = new();
+    List<int> negativeNumbers = new();
+
+    for (int i = 0; i < val.Count; i++)
+    {
+        if (val[i] > 0)
+        {
+            positiveNumbers.Add(val[i]);
+        }
+    }
+    long positiveSum = positiveNumbers.Sum();
+    if (positiveSum % 2 == 0) return positiveSum;
+
+    var negativeSum = 0;
+    for (int i = 0; i < val.Count; i++)
+    {
+        if (val[i] < 0)
+        {
+            negativeNumbers.Add(val[i]);
+            var negMax = negativeNumbers.Max();
+            if ((positiveNumbers.Sum() + negMax) % 2 == 0)
+            {
+                negativeSum = positiveNumbers.Sum() + negMax;
+            }
+        }
+    }
+    return negativeSum;
+
+
+}
+#endregion
+
+#region ReturnHour
+string returnHour(string s)
+{
+    var dt = DateTime.ParseExact(s, "hh:mm:sstt", CultureInfo.InvariantCulture);
+
+    return $"{dt:HH:mm:ss}";
+}
+#endregion
+
+#region MatchingStrings
+
+List<int> matchingStrings(List<string> strings, List<string> queries)
+{
+    var count = queries.Count;
+    int[] array = new int[count];
+    for (int i = 0; i < count; i++)
+    {
+        for (int j = 0; j < strings.Count; j++)
+        {
+            if (queries[i] == strings[j])
+            {
+                array[i]++;
+            }
+        }
+    }
+    return array.ToList();
+}
+
+//Console.WriteLine(matchingStrings(new List<string>() { "ab", "ab", "abc" }, new List<string>() { "ab", "abc", "bc" }));
+
+#endregion
+
+#region IsTheNumberPresent
+List<string> IsTheNumberPresent(List<int> num)
+{
+    var numberPresent=new List<string>{"",""};
+
+    for (int i = 0; i < num.Count; i++)
+    {
+        bool occurLater = false;
+        bool occurEarlier = false;
+
+        for (int j = num.Count-1; j > i; j--)
+        {
+            if (num[i] == num[j])
+                occurLater = true;
+        }
+
+        if (i!=0 || i!=num.Count-1)
+        {
+            for (int k = i; k >=0; k--)
+            {
+                if (num[i] == num[k])
+                    occurEarlier = true;
+            }
+        }
+
+
+        if (occurEarlier) numberPresent[0] += "1";
+        else numberPresent[0] += "0";
+
+        if (occurLater) numberPresent[1]+= "1";
+        else numberPresent[1]+= "0";
+
+
+    }
+    return numberPresent;
+}
 
 #endregion
